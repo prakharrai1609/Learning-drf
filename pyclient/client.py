@@ -7,4 +7,4 @@ response = requests.get(endpoint)
 try:
     print(response.json())
 except:
-    print(response)
+    print("Except : ", response)

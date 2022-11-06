@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.forms.models import model_to_dict
 
 from .models import *
+from .serializers import *
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -10,13 +11,22 @@ from rest_framework.response import Response
 
 @api_view(["GET"])
 def home_view(request):
-	model_obj = Product.objects.all().order_by('?').first()
+	instance = Product.objects.all().order_by('?').first()
 	data = {}
-	if model_obj:
-		# data['id'] = model_obj.id
-		# data['title'] = model_obj.title
-		# data['details'] = model_obj.details
-		# data['price'] = model_obj.price
+	if instance:
 
-		data = model_to_dict(model_obj)
+		# WAY 1
+
+		# data['id'] = instance.id
+		# data['title'] = instance.title
+		# data['details'] = instance.details
+		# data['price'] = instance.price
+
+		# WAY 2
+
+		# data = model_to_dict(instance)
+
+		# WAY 3
+
+		data = ProductSerializer(instance).data
 	return Response(data)
